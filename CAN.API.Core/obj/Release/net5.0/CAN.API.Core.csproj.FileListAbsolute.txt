@@ -1,0 +1,12 @@
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\bin\Release\net5.0\CAN.API.Core.deps.json
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\bin\Release\net5.0\CAN.API.Core.dll
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\bin\Release\net5.0\ref\CAN.API.Core.dll
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\bin\Release\net5.0\CAN.API.Core.pdb
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\CAN.API.Core.csproj.AssemblyReference.cache
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\CAN.API.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\CAN.API.Core.AssemblyInfoInputs.cache
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\CAN.API.Core.AssemblyInfo.cs
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\CAN.API.Core.csproj.CoreCompileInputs.cache
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\CAN.API.Core.dll
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\ref\CAN.API.Core.dll
+C:\Users\domantass\Documents\GitHub\CAN.API\CAN.API\CAN.API.Core\obj\Release\net5.0\CAN.API.Core.pdb
