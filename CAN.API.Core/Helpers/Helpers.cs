@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAN.API.Core.Helpers
 {
@@ -18,7 +15,7 @@ namespace CAN.API.Core.Helpers
 
             return array[0];
         }
-        public IEnumerable<byte> GetBytesFromByteString(string s)
+        public static IEnumerable<byte> GetBytesFromByteString(string s)
         {
             for (int index = 0; index < s.Length; index += 2)
             {

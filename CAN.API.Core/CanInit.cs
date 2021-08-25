@@ -1,8 +1,5 @@
 ﻿using Iot.Device.Mcp25xxx;
 using Iot.Device.Mcp25xxx.Register;
-using Iot.Device.Mcp25xxx.Register.CanControl;
-using Iot.Device.Mcp25xxx.Register.MessageTransmit;
-using System;
 using System.Device.Spi;
 
 
@@ -28,5 +25,6 @@ namespace CAN.API.Core
             mcp2515.Write(Address.Cnf2, new byte[] { 0b1001_0001 });
             mcp2515.Write(Address.Cnf3, new byte[] { 0b0000_0001 });
         }
+
     }
 }

@@ -1,10 +1,7 @@
 ﻿using CAN.API.Core;
+using CAN.API.Web.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CAN.API.Web.Controllers
 {
@@ -19,14 +16,21 @@ namespace CAN.API.Web.Controllers
             _logger = logger;
         }
 
-        [HttpPost("test")]
-        public async Task<IActionResult> CanMsg()
+        [HttpGet("msg")]
+        public IActionResult ReceiveCanMsg()
         {
-            CanInit mcp2515 = new();
-            byte[] data = new byte[] { 0xFF, 0xFF, 0xF0, 0x0F, 0x00, 0x00, 0xFF, 0xFF };
-            mcp2515.TransmitMessage(data);
+            CanRx receivedMsg = new();
+            var msg = receivedMsg.ReadRxBuffer();
+            return Ok(msg);
+        }
 
+        [HttpPost("msg")]
+        public IActionResult TransmitCanMsg(CanDto canDto)
+        {
+            CanTx transmitMsg = new(canDto.MsgLength);
+            transmitMsg.TransmitMessage(canDto.Msg);
             return Ok();
         }
+
     }
 }
