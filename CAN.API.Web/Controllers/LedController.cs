@@ -15,7 +15,7 @@ namespace CAN.API.Web.Controllers
         {
             CanTx canTx = new(8);
 
-            var calculateIDandSlotNr = IdCalculation(id);
+            var calculatedIdAndSlotNr = IdCalculation(id);
 
             byte[] bytes = Helpers.GetBytesFromByteString(color).ToArray();
             byte brightness = 0xFF;
@@ -23,7 +23,7 @@ namespace CAN.API.Web.Controllers
 
             if (check > 3) brightness = bytes[3];
 
-            byte[] data = new byte[] { calculateIDandSlotNr.Item2, (byte)calculateIDandSlotNr.Item1, 0x00, 0xFF, bytes[0], bytes[1], bytes[2], brightness };
+            byte[] data = new byte[] { calculatedIdAndSlotNr.Item2, (byte)calculatedIdAndSlotNr.Item1, 0x00, 0xFF, bytes[0], bytes[1], bytes[2], brightness };
             canTx.TransmitMessage(data);
             return Ok();
         }

@@ -8,6 +8,7 @@ namespace CAN.API.Core
     public class ReadBinary
     {
         public static byte[] Masyvas { get; set; }
+
         public ReadBinary(string path)
         {
             byte[] readText = File.ReadAllBytes(path);

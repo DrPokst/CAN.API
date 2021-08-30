@@ -10,31 +10,29 @@ using System.Threading.Tasks;
 
 namespace CAN.API.Core
 {
-    public class CanRx 
+    public class CanRx : CanInit
     {
-        public CanInit canRx { get; set; }
-        public object CANINTF { get; private set; }
+        private BitArray CANINTF { get; set; }
+        private byte[] rxBufferData { get; set; }
 
         public CanRx()
         {
-            CanInit canInit = new();
-            canRx = canInit;
             SetRxParameters();
             ClearRxBuff();
         }
 
         private void SetRxParameters()
         {
-            canRx.mcp2515.Write(Address.RxB0Ctrl, new byte[] { 0b0110_0000 });
-            canRx.mcp2515.Write(Address.RxB1Ctrl, new byte[] { 0b0110_0000 });
+            mcp2515.Write(Address.RxB0Ctrl, new byte[] { 0b0110_0000 });
+            mcp2515.Write(Address.RxB1Ctrl, new byte[] { 0b0110_0000 });
         }
         public void ClearRxBuff()
         {
-            canRx.mcp2515.Write(Address.CanIntF, new byte[] { 0b0000_0000 });
+            mcp2515.Write(Address.CanIntF, new byte[] { 0b0000_0000 });
         }
         public int ReceiveDLC()
         {
-            var RxB0Dlc = new BitArray(BitConverter.GetBytes(canRx.mcp2515.Read(Address.RxB0Dlc)).ToArray());
+            var RxB0Dlc = new BitArray(BitConverter.GetBytes(mcp2515.Read(Address.RxB0Dlc)).ToArray());
             RxB0Dlc[6] = false;
             RxB0Dlc[5] = false;
             RxB0Dlc[4] = false;
@@ -43,25 +41,19 @@ namespace CAN.API.Core
         }
         public byte[] ReadRxBuffer()
         {
-            BitArray CANINTF;
-            byte[] bufferData;
-
             do
             {
-                CANINTF = new BitArray(BitConverter.GetBytes(canRx.mcp2515.Read(Address.CanIntF)).ToArray());
-            } while (CANINTF[0] == false);
+                CANINTF = new BitArray(BitConverter.GetBytes(mcp2515.Read(Address.CanIntF)).ToArray());
+            } while (CANINTF[0] == false && CANINTF[1] == false);
             
             if (CANINTF[0] == true)
             {
-                bufferData = canRx.mcp2515.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
-            }
-            else
+                rxBufferData = mcp2515.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
+            }else
             {
-                bufferData = canRx.mcp2515.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
+                rxBufferData = mcp2515.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
             }
-
-            return (bufferData);
-
+            return (rxBufferData);
         }
 
     }
