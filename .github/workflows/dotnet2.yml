@@ -19,6 +19,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish -c Release
+      run: dotnet publish -r linux-arm
     - name: Test
       run: dotnet test --no-build --verbosity normal
