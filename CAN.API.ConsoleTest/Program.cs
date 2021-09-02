@@ -14,6 +14,12 @@ namespace CAN.API.ConsoleTest
             CanTx transmit = new(8);
             byte[] data = new byte[] { };
 
+
+
+
+
+            
+
             Console.WriteLine("Pasirinkit norimus veiksmus: ");
             Console.WriteLine("1 - FLASH_START_ERASE     0xB0");
             Console.WriteLine("2 - FLASH_START_WRITE     0xB1");
