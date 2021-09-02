@@ -9,7 +9,7 @@ namespace CAN.API.ConsoleTest
         {
             Console.WriteLine("Hello World!");
 
-            ReadBinary binaryData = new(@"../../../Detector_flash_program.bin");
+            ReadBinary binaryData = new(@"../../../../../Detector_flash_program.bin");
             CanTx transmit = new(8);
             byte[] data = new byte[] { };
 
