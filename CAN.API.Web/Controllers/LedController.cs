@@ -65,15 +65,6 @@ namespace CAN.API.Web.Controllers
 
             return Ok();
         }
-        [HttpGet("off/all3")]
-        public IActionResult TurnOffAll2()
-        {
-            CanTx canTx = new(8);
-            byte[] data = new byte[] { 0, 0, 0x00, 0x00, 0x00, 0xFF, 0x00, 0xFF };
-            canTx.TransmitMessage(data);
-
-            return Ok();
-        }
         private Tuple<int, byte> IdCalculation(int id)
         {
             int tarpinis = (id - 1) / 10;
