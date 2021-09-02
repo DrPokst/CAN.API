@@ -65,7 +65,7 @@ namespace CAN.API.Web.Controllers
 
             return Ok();
         }
-        [HttpGet("off/all2")]
+        [HttpGet("off/all3")]
         public IActionResult TurnOffAll2()
         {
             CanTx canTx = new(8);
