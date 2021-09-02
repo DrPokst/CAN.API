@@ -11,7 +11,7 @@ namespace CAN.API.Web.Controllers
     public class LedController : ControllerBase
     {
         [HttpGet("on")]
-        public IActionResult TurnOnLed(int id, String color)
+        public IActionResult TurnOnLed(int id, string color)
         {
             CanTx canTx = new(8);
 
@@ -40,7 +40,7 @@ namespace CAN.API.Web.Controllers
         }
 
         [HttpGet("on/all")]
-        public IActionResult TurnOnAll(String color)
+        public IActionResult TurnOnAll(string color)
         {
             CanTx canTx = new(8);
 

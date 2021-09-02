@@ -2,11 +2,7 @@
 using Iot.Device.Mcp25xxx.Register;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Device.Spi;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAN.API.Core
 {
@@ -45,14 +41,16 @@ namespace CAN.API.Core
             {
                 CANINTF = new BitArray(BitConverter.GetBytes(mcp2515.Read(Address.CanIntF)).ToArray());
             } while (CANINTF[0] == false && CANINTF[1] == false);
-            
+
             if (CANINTF[0] == true)
             {
                 rxBufferData = mcp2515.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
-            }else
-            {
-                rxBufferData = mcp2515.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
             }
+            else
+            {
+                rxBufferData = mcp2515.ReadRxBuffer(RxBufferAddressPointer.RxB1D0, 8);
+            }
+            ClearRxBuff();
             return (rxBufferData);
         }
 
