@@ -42,7 +42,7 @@ namespace CAN.API.Web.Controllers
             int slotNr = id - ((tarpinis - 1) * 10);
             byte ID = Convert.ToByte(tarpinis);
 
-            CanTx transmitMsg = new(4);
+            CanTx transmitMsg = new(8);
             byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0x00, 0xFF, 0xFF };
             transmitMsg.TransmitMessage(data);
             return Ok();
