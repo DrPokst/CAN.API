@@ -25,7 +25,7 @@ namespace CAN.API.Web.Controllers
             transmitMsg.TransmitMessage(canDto.Msg);
             return Ok();
         }
-        [HttpPost("setlocation")]
+        [HttpGet("setlocation")]
         public IActionResult SetReelLocation()
         {
             CanTx transmitMsg = new(4);
@@ -35,7 +35,7 @@ namespace CAN.API.Web.Controllers
             var msg = receivedMsg.ReadRxBuffer();
             return Ok(msg);
         }
-        [HttpPost("takeout")]
+        [HttpGet("takeout")]
         public IActionResult TakeOut(int id)
         {
             int tarpinis = (id / 10) + 1;
