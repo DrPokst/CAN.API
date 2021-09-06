@@ -1,7 +1,9 @@
 ﻿using CAN.API.Core;
+using CAN.API.Core.Helpers;
 using CAN.API.Web.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 
 namespace CAN.API.Web.Controllers
 {
@@ -38,15 +40,27 @@ namespace CAN.API.Web.Controllers
         [HttpGet("takeout")]
         public IActionResult TakeOut(int id)
         {
-            int tarpinis = (id / 10) + 1;
-            int slotNr = id - ((tarpinis - 1) * 10);
-            byte ID = Convert.ToByte(tarpinis);
+            CanTx canTx = new(8);
 
-            CanTx transmitMsg = new(8);
-            byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0x00, 0xFF, 0xFF };
-            transmitMsg.TransmitMessage(data);
+            var calculatedIdAndSlotNr = IdCalculation(id);
+            string color = "00897b";
+            byte[] bytes = Helpers.GetBytesFromByteString(color).ToArray();
+            byte brightness = 0xFF;
+            int check = bytes.Length;
+
+            if (check > 3) brightness = bytes[3];
+
+            byte[] data = new byte[] { calculatedIdAndSlotNr.Item2, (byte)calculatedIdAndSlotNr.Item1, 0xF0, 0x0F, bytes[0], bytes[1], bytes[2], brightness };
+            canTx.TransmitMessage(data);
             return Ok();
         }
+        private Tuple<int, byte> IdCalculation(int id)
+        {
+            int tarpinis = (id - 1) / 10;
+            int slotNr = id - (tarpinis * 10);
+            byte ID = Convert.ToByte(tarpinis);
 
+            return Tuple.Create(slotNr, ID);
+        }
     }
 }
