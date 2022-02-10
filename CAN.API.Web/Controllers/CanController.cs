@@ -10,6 +10,11 @@ namespace CAN.API.Web.Controllers
     [ApiController]
     public class CanController : ControllerBase
     {
+        private readonly ICanBus _can;
+        public CanController(ICanBus can)
+        {
+            _can = can;
+        }
 
         [HttpGet("msg")]
         public IActionResult ReceiveCanMsg()
@@ -26,40 +31,21 @@ namespace CAN.API.Web.Controllers
            // transmitMsg.TransmitMessage(canDto.Msg);
             return Ok();
         }
+
         [HttpGet("setlocation")]
-        public IActionResult SetReelLocation()
+        public IActionResult SetReelLocation(int id)
         {
-          //  CanTx transmitMsg = new(4);
-            byte[] data = new byte[] { 0x00, 0x00, 0x0F, 0xF0 };
-            //transmitMsg.TransmitMessage(data);
+            _can.Start_Reels_Registration(id);
             CanRx receivedMsg = new();
             var msg = receivedMsg.ReadRxBuffer();
             return Ok(msg);
         }
+
         [HttpGet("takeout")]
-        public IActionResult TakeOut(int id)
+        public IActionResult TakeOut(int location, int reelID, string color)
         {
-           // CanTx canTx = new(8);
-
-            var calculatedIdAndSlotNr = IdCalculation(id);
-            string color = "00897b";
-            byte[] bytes = Helpers.GetBytesFromByteString(color).ToArray();
-            byte brightness = 0xFF;
-            int check = bytes.Length;
-
-            if (check > 3) brightness = bytes[3];
-
-            byte[] data = new byte[] { calculatedIdAndSlotNr.Item2, (byte)calculatedIdAndSlotNr.Item1, 0xF0, 0x0F, bytes[0], bytes[1], bytes[2], brightness };
-           // canTx.TransmitMessage(data);
+            _can.Start_Reels_Taking(location, reelID, color, 0xFF);
             return Ok();
-        }
-        private Tuple<int, byte> IdCalculation(int id)
-        {
-            int tarpinis = (id - 1) / 10;
-            int slotNr = id - (tarpinis * 10);
-            byte ID = Convert.ToByte(tarpinis);
-
-            return Tuple.Create(slotNr, ID);
         }
     }
 }
