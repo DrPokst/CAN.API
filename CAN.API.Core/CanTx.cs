@@ -7,11 +7,10 @@ namespace CAN.API.Core
     public class CanTx : CanInit
         
     {
-        public CanTx(int msgSize)
+        public CanTx()
         {
-            SetTxParameters(msgSize);
         }
-        private void SetTxParameters(int msgSize)
+        private void SetTxParameters(int msgSize, byte canID, byte CMD)
         {
             mcp2515.WriteByte(
                new CanCtrl(CanCtrl.PinPrescaler.ClockDivideBy8,
@@ -24,13 +23,14 @@ namespace CAN.API.Core
                 Address.TxB0Sidh,
                 new byte[]
                 {
-                    new TxBxSidh(0, 0b0000_0000).ToByte(), new TxBxSidl(0, 0b000, false, 0b000).ToByte(),
+                    new TxBxSidh(0, canID).ToByte(), new TxBxSidl(0, 0b000, false, CMD).ToByte(),
                     new TxBxEid8(0, 0b0000_0000).ToByte(), new TxBxEid0(0, 0b0000_0000).ToByte(),
                     new TxBxDlc(0, msgSize, false).ToByte()
                 });
         }
-        public void TransmitMessage(byte[] data)
+        public void TransmitMessage(byte[] data, byte canID, byte CMD)
         {
+            SetTxParameters(8, canID, CMD);
             mcp2515.Write(Address.TxB0D0, data);
             mcp2515.RequestToSend(true, false, false);
         }

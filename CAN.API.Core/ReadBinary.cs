@@ -15,8 +15,8 @@ namespace CAN.API.Core
             Masyvas = readText;
         }
         public void SendBinaryFile()
-        {
-            CanTx transmit = new(8);
+        {/*
+            CanTx transmit = new();
             byte[] data = new byte[] { };
 
             for (int i = 0; i < (Masyvas.Length / 8) + 1; i++)
@@ -24,11 +24,11 @@ namespace CAN.API.Core
                 data = Masyvas.Skip(8 * i).Take(8).ToArray();
                 transmit.TransmitMessage(data);
                 Thread.Sleep(20);
-            }
+            }*/
         }
         public void ZygioAlgortimas()
-        {
-            CanTx transmit = new(8);
+        {/*
+            CanTx transmit = new();
             byte[] data = new byte[] { };
             CanRx receive = new();
 
@@ -54,7 +54,7 @@ namespace CAN.API.Core
                     }
                     receive.ClearRxBuff();
                 }
-            }
+            }*/
         }
 
     }

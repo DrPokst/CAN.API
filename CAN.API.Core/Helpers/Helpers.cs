@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CAN.API.Core.Helpers
+namespace CAN.API.Core
 {
     public class Helpers
     {
@@ -21,6 +21,14 @@ namespace CAN.API.Core.Helpers
             {
                 yield return Convert.ToByte(s.Substring(index, 2), 16);
             }
+        }
+        public static Tuple<int, byte> IdCalculation(int id)
+        {
+            int tarpinis = (id - 1) / 10;
+            int slotNr = id - (tarpinis * 10);
+            byte ID = Convert.ToByte(tarpinis);
+
+            return Tuple.Create(slotNr, ID);
         }
     }
 }
