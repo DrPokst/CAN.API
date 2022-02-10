@@ -1,5 +1,4 @@
 ﻿using CAN.API.Core;
-using CAN.API.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -12,8 +11,7 @@ namespace CAN.API.Web.Controllers
     {
         [HttpGet("on")]
         public IActionResult TurnOnLed(int id, string color)
-        {
-            CanTx canTx = new(8);
+        { CanTx canTx = new();
 
             var calculatedIdAndSlotNr = IdCalculation(id);
 
@@ -24,25 +22,26 @@ namespace CAN.API.Web.Controllers
             if (check > 3) brightness = bytes[3];
 
             byte[] data = new byte[] { calculatedIdAndSlotNr.Item2, (byte)calculatedIdAndSlotNr.Item1, 0x00, 0xFF, bytes[0], bytes[1], bytes[2], brightness };
-            canTx.TransmitMessage(data);
+            //canTx.TransmitMessage(data);
+           
             return Ok();
         }
 
         [HttpGet("off")]
         public IActionResult TurnOffLed(int id)
         {
-            CanTx canTx = new(8);
+            CanTx canTx = new();
 
             var calculateIDandSlotNr = IdCalculation(id);
             byte[] data = new byte[] { calculateIDandSlotNr.Item2, (byte)calculateIDandSlotNr.Item1, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF };
-            canTx.TransmitMessage(data);
+            //canTx.TransmitMessage(data);
             return Ok();
         }
 
         [HttpGet("on/all")]
         public IActionResult TurnOnAll(string color)
         {
-            CanTx canTx = new(8);
+            CanTx canTx = new();
 
             byte[] bytes = Helpers.GetBytesFromByteString(color).ToArray();
             byte brightness = 0xFF;
@@ -52,16 +51,16 @@ namespace CAN.API.Web.Controllers
 
 
             byte[] data = new byte[] { 0, 0, 0xFF, 0xFF, bytes[0], bytes[1], bytes[2], brightness };
-            canTx.TransmitMessage(data);
+            //canTx.TransmitMessage(data);
 
             return Ok();
         }
         [HttpGet("off/all")]
         public IActionResult TurnOffAll()
         {
-            CanTx canTx = new(8);
+            CanTx canTx = new();
             byte[] data = new byte[] { 0, 0, 0x00, 0x00, 0x00, 0xFF, 0x00, 0xFF };
-            canTx.TransmitMessage(data);
+            //canTx.TransmitMessage(data);
 
             return Ok();
         }

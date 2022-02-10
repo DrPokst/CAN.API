@@ -1,5 +1,4 @@
 ﻿using CAN.API.Core;
-using CAN.API.Core.Helpers;
 using CAN.API.Web.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,16 +22,16 @@ namespace CAN.API.Web.Controllers
         [HttpPost("msg")]
         public IActionResult TransmitCanMsg(CanDto canDto)
         {
-            CanTx transmitMsg = new(canDto.MsgLength);
-            transmitMsg.TransmitMessage(canDto.Msg);
+           // CanTx transmitMsg = new(canDto.MsgLength);
+           // transmitMsg.TransmitMessage(canDto.Msg);
             return Ok();
         }
         [HttpGet("setlocation")]
         public IActionResult SetReelLocation()
         {
-            CanTx transmitMsg = new(4);
+          //  CanTx transmitMsg = new(4);
             byte[] data = new byte[] { 0x00, 0x00, 0x0F, 0xF0 };
-            transmitMsg.TransmitMessage(data);
+            //transmitMsg.TransmitMessage(data);
             CanRx receivedMsg = new();
             var msg = receivedMsg.ReadRxBuffer();
             return Ok(msg);
@@ -40,7 +39,7 @@ namespace CAN.API.Web.Controllers
         [HttpGet("takeout")]
         public IActionResult TakeOut(int id)
         {
-            CanTx canTx = new(8);
+           // CanTx canTx = new(8);
 
             var calculatedIdAndSlotNr = IdCalculation(id);
             string color = "00897b";
@@ -51,7 +50,7 @@ namespace CAN.API.Web.Controllers
             if (check > 3) brightness = bytes[3];
 
             byte[] data = new byte[] { calculatedIdAndSlotNr.Item2, (byte)calculatedIdAndSlotNr.Item1, 0xF0, 0x0F, bytes[0], bytes[1], bytes[2], brightness };
-            canTx.TransmitMessage(data);
+           // canTx.TransmitMessage(data);
             return Ok();
         }
         private Tuple<int, byte> IdCalculation(int id)
