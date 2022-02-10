@@ -1,3 +1,4 @@
+using CAN.API.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,7 @@ namespace CAN.API.Web
         {
 
             services.AddControllers();
+            services.AddScoped<ICanBus, CanBus>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CAN.API.Web", Version = "v1" });
