@@ -32,6 +32,7 @@ namespace CAN.API.Web.Controllers
         [HttpGet("on/all")]
         public IActionResult TurnOnAll(string color)
         {
+            Console.WriteLine("!!!!!!!!!!!!komanda gauta!!!!!!!!!!!!!!!!!!!");
             _can.Turn_On_All_Led(color, 0xFF);
             return Ok();
         }
