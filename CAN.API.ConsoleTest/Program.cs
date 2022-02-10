@@ -56,6 +56,7 @@ namespace CAN.API.ConsoleTest
                 Console.WriteLine("27 - BOOTLOADER_FLAG_SET       0x27");
                 Console.WriteLine("28 - BOOTLOADER_FLAG_RESET     0x28");
                 Console.WriteLine("29 - START_NODE_ID_NUMERATION  0x29");
+                Console.WriteLine("ZZ - FLASH_ALL                 0xZZ");
                 Console.WriteLine("XX - READ_CAN                  0xFF");
 
                 var veiksmas = Console.ReadLine();
@@ -193,6 +194,73 @@ namespace CAN.API.ConsoleTest
                         Console.Write("Iveskite nuo kurio ID numeruoti: ");
                         var startnum = Int32.Parse(Console.ReadLine());
                         can.Start_Node_ID_Numeration(startnum);
+                        break;
+                    case "ZZ":  //BOOTLOADER_FLAG_RESET
+                        for (int i = 1; i <= 88; i++)
+                        {
+                            can.Bootloader_Flag_Set(i);
+                            Thread.Sleep(5000);
+                            can.Reset_Single(i);
+                            Thread.Sleep(500);
+                            can.Flash_Start_Write(i, programForUpload.Length, CRC);
+
+                            CanRx receive1 = new();
+                            CanMessage msg1 = receive1.ReadRxBuffer();
+
+                            Console.WriteLine("CMD: {0}", msg1.CMD);
+                            Console.WriteLine("CAN ID: {0}", msg1.CanId);
+                            Console.WriteLine("CAN msg {0}: {1}", 1, BitConverter.ToString(msg1.Data, 0, 2));
+
+                            CanTx tx1 = new();
+
+
+                            if (msg1.Data[0] == 0x79 && msg1.CanId == i && msg1.CMD == 0x01)
+                            {
+
+                                Console.WriteLine("Flashing");
+                                for (int a = 0; a < programForUpload.Length / 8 + 1; a++)
+                                {
+
+                                    msg1 = receive1.ReadRxBuffer();
+
+
+                                    Console.WriteLine("CMD: {0}", msg1.CMD);
+                                    Console.WriteLine("CAN ID: {0}", msg1.CanId);
+                                    Console.WriteLine("CAN msg {0}: {1}", 1, BitConverter.ToString(msg1.Data, 0, 2));
+                                    Console.WriteLine("Plokste:{0}", i);
+
+
+                                    if (msg1.Data[0] == 0x79 && msg1.CanId == i && msg1.CMD == 0x03)
+                                    {
+
+                                        if (a == (programForUpload.Length / 8))
+                                        {
+                                            var data = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+                                            tx1.WriteToBuffer(data);
+                                            data = programForUpload.Skip(8 * a).Take(8).ToArray();
+                                            can.Send_Data(i, data);
+                                            Console.WriteLine("Paskutinis");
+
+                                        }
+                                        else
+                                        {
+                                            var data = programForUpload.Skip(8 * a).Take(8).ToArray();
+                                            can.Send_Data(i, data);
+                                            Console.WriteLine("CAN msg {0}: {1}, {2}", a, BitConverter.ToString(data, 0, 4), BitConverter.ToString(data, 4, 4));
+                                        }
+                                        receive1.ClearRxBuff();
+                                    }
+                                    Console.WriteLine("Done");
+                                }
+                            }
+
+
+                        }
+                        can.Bootloader_Flag_Reset(0);
+
+
+
+
                         break;
                     default:
                         Console.WriteLine("Default");
