@@ -196,10 +196,12 @@ namespace CAN.API.ConsoleTest
                         can.Start_Node_ID_Numeration(startnum);
                         break;
                     case "ZZ":  //BOOTLOADER_FLAG_RESET
+                        can.Bootloader_Flag_Set(0);
+                        can.Reset_All();
+                        Thread.Sleep(5000);
+
                         for (int i = 1; i <= 88; i++)
                         {
-                            can.Bootloader_Flag_Set(i);
-                            Thread.Sleep(5000);
                             can.Reset_Single(i);
                             Thread.Sleep(500);
                             can.Flash_Start_Write(i, programForUpload.Length, CRC);
@@ -256,11 +258,10 @@ namespace CAN.API.ConsoleTest
 
 
                         }
-
-                        Thread.Sleep(1000);
                         can.Bootloader_Flag_Reset(0);
-                        Thread.Sleep(200);
+                        Thread.Sleep(5000);
                         can.Reset_All();
+
 
 
 

@@ -38,7 +38,14 @@ namespace CAN.API.Web.Controllers
             _can.Start_Reels_Registration(id);
             CanRx receivedMsg = new();
             var msg = receivedMsg.ReadRxBuffer();
-            return Ok(msg);
+            CanMessageDTO msgForReturn = new CanMessageDTO
+            {
+                CanId = msg.CanId,  //nenaudojama
+                CMD = msg.CMD,
+                Data = msg.Data.ToList()
+            };
+
+            return Ok(msgForReturn);
         }
 
         [HttpGet("takeout")]
