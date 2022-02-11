@@ -256,8 +256,11 @@ namespace CAN.API.ConsoleTest
 
 
                         }
-                        can.Bootloader_Flag_Reset(0);
 
+                        Thread.Sleep(1000);
+                        can.Bootloader_Flag_Reset(0);
+                        Thread.Sleep(200);
+                        can.Reset_All();
 
 
 
